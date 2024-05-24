@@ -22,7 +22,7 @@ function CreateBookingForm({ bookingtoEdit = {}, onCloseModal }) {
   function onSubmitBooking(data) {
     if (isEditing)
       editBooking(
-        { newCabinData: { ...data }, id: editId },
+        { newBookingData: { ...data }, id: editId },
         {
           onSuccess: (data) => {
             {
