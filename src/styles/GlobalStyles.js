@@ -45,8 +45,8 @@ const GlobalStyles = createGlobalStyle`
     
 
     &.dark-mode{
-      --color-grey-0: #18212f;
-  --color-grey-50: #111827;
+      --color-grey-0: #201A23;
+  --color-grey-50: #2E2532;
   --color-grey-100: #1f2937;
   --color-grey-200: #374151;
   --color-grey-300: #4b5563;
@@ -65,7 +65,7 @@ const GlobalStyles = createGlobalStyle`
   --color-yellow-700: #fef9c3;
   --color-silver-100: #374151;
   --color-silver-700: #f3f4f6;
-  --color-indigo-100: #3730a3;
+  --color-indigo-100: #201A23;
   --color-indigo-700: #e0e7ff;
   
   --color-red-100: #fee2e2;
@@ -82,15 +82,15 @@ const GlobalStyles = createGlobalStyle`
   --image-opacity: 90%;
     }
 
-    /* Indigo */
+
     --color-brand-50: #eef2ff;
     --color-brand-100: #e0e7ff;
     --color-brand-200: #c7d2fe;
-    --color-brand-500: #6366f1;
-    --color-brand-600: #4f46e5;
-    --color-brand-700: #4338ca;
-    --color-brand-800: #3730a3;
-    --color-brand-900: #312e81;
+    --color-brand-500: #631D76;
+    --color-brand-600: #631D76;
+    --color-brand-700: #631D76;
+    --color-brand-800: #631D76;
+    --color-brand-900: #631D76;
 
     --border-radius-tiny: 3px;
     --border-radius-sm: 5px;
@@ -109,6 +109,26 @@ const GlobalStyles = createGlobalStyle`
     /* Creating animations for dark mode */
     transition: background-color 0.3s, border 0.3s;
   }
+  .cabinSelect{  
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #2E2532;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5H7z" fill="rgba(0, 0, 0, 0.54)"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 5px;
+    padding-right: 30px; /* Adjust this value based on the padding of your select */
+  }
+
+
   
   html {
     font-size: 62.5%;
@@ -124,6 +144,9 @@ const GlobalStyles = createGlobalStyle`
     font-size: 1.6rem;
   }
   
+
+
+
   input,
   button,
   textarea,

@@ -114,6 +114,7 @@ function CreateBookingForm({ bookingtoEdit = {}, onCloseModal }) {
       </FormRow>
       <FormRow label="Cabin" error={errors.cabinId?.message}>
         <select
+          className="cabinSelect"
           id="cabinId"
           {...register("cabinId", { required: "This field is mandatory" })}
         >
@@ -129,6 +130,7 @@ function CreateBookingForm({ bookingtoEdit = {}, onCloseModal }) {
 
       <FormRow label="Is Paid?" error={errors?.isPaid?.message}>
         <select
+          className="cabinSelect"
           id="isPaid"
           {...register("isPaid", { required: "This field is mandatory" })}
         >
@@ -149,6 +151,7 @@ function CreateBookingForm({ bookingtoEdit = {}, onCloseModal }) {
       </FormRow>
       <FormRow label="Has Breakfast?" error={errors?.hasBreakfast?.message}>
         <select
+          className="cabinSelect"
           id="hasBreakfast"
           {...register("hasBreakfast", {
             required: "This field is mandatory",
