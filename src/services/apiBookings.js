@@ -122,3 +122,16 @@ export async function deleteBooking(id) {
   }
   return data;
 }
+
+export async function createBooking(newBooking, id) {
+  let query = supabase.from("bookings");
+  if (!id) query = query.insert([{ ...newBooking }]);
+  if (id) query = query.update({ ...newBooking }).eq("id", id);
+
+  const { data, error } = await query.select().single();
+  if (error) {
+    console.log(error);
+    throw new Error("Booking could not be created");
+  }
+  return data;
+}
