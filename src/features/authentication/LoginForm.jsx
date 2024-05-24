@@ -1,15 +1,15 @@
 import { useState } from "react";
+import { useLogin } from "./useLogin";
+import FormRowVertical from "../../ui/FormRowVertical";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
-import FormRowVertical from "../../ui/FormRowVertical";
-import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 
 function LoginForm() {
   const [email, setEmail] = useState("test@gmail.com");
   const [password, setPassword] = useState("12345678");
-  const { mutate: login, isLoading } = useLogin();
+  const { mutate: login, isLoading } = useLogin(); //creates 2 states and then do the login according to it
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -24,6 +24,7 @@ function LoginForm() {
       }
     );
   }
+  //this function handles the submit event and then sets the email and password to empty if it gets login or not
 
   return (
     <Form onSubmit={handleSubmit}>
