@@ -35,7 +35,7 @@ function BookingDetail() {
   const { deleteBookingfunction, isDeletingBooking } = useDeleteBooking();
 
   if (isLoading) return <Spinner />;
-
+  console.log(booking);
   const { status, id: bookingId } = booking;
 
   const statusToTagName = {

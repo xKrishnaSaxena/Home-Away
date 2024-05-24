@@ -18,6 +18,8 @@ import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "./useDeleteBooking";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useCabins } from "../cabins/useCabins";
+import Spinner from "../../ui/Spinner";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -56,10 +58,15 @@ function BookingRow({
     numGuests,
     totalPrice,
     status,
-    guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
+    fullName,
+    email,
+    cabinId,
   },
 }) {
+  const { cabins, isLoading, error } = useCabins();
+
+  const cabin = cabins?.find((cabin) => cabin.id === cabinId);
+
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -70,12 +77,21 @@ function BookingRow({
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBookingfunction, isDeletingBooking } = useDeleteBooking();
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (error) {
+    return <div>Error</div>;
+  }
+
   return (
     <Table.Row>
-      <Cabin>{cabinName}</Cabin>
+      <Cabin>
+        <Cabin>{cabin?.name ?? "Cabin not found"}</Cabin>{" "}
+      </Cabin>
 
       <Stacked>
-        <span>{guestName}</span>
+        <span>{fullName}</span>
         <span>{email}</span>
       </Stacked>
 

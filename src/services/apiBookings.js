@@ -1,14 +1,24 @@
 import { PAGE_SIZE } from "../utils/constants";
-import { getToday } from "../utils/helpers";
+import { getToday, subtractDates } from "../utils/helpers";
+import { isFuture, isPast, isToday } from "date-fns";
 import supabase from "./supabase";
 
+async function fetchCabinDetails(cabinId) {
+  const { data, error } = await supabase
+    .from("cabins")
+    .select("*")
+    .eq("id", cabinId)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Cabin details could not be fetched");
+  }
+  return data;
+}
+
 export async function getBookings({ filter, sortBy, page }) {
-  let query = supabase
-    .from("bookings")
-    .select(
-      "id ,created_at,startDate,endDate,numNights,numGuests,status,totalPrice,cabins(name),guests(fullName,email)",
-      { count: "exact" }
-    );
+  let query = supabase.from("bookings").select("*");
   if (filter) query = query.eq(filter.field, filter.value);
 
   if (sortBy)
@@ -32,7 +42,7 @@ export async function getBookings({ filter, sortBy, page }) {
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*, cabins(*), guests(*)")
+    .select("*, cabins(*)")
     .eq("id", id)
     .single();
 
@@ -64,7 +74,7 @@ export async function getBookingsAfterDate(date) {
 export async function getStaysAfterDate(date) {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*, guests(fullName)")
+    .select("*")
     .gte("startDate", date)
     .lte("startDate", getToday());
 
@@ -80,7 +90,7 @@ export async function getStaysAfterDate(date) {
 export async function getStaysTodayActivity() {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*, guests(fullName, nationality)")
+    .select("*)")
     .or(
       `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
     )
@@ -124,6 +134,41 @@ export async function deleteBooking(id) {
 }
 
 export async function createBooking(newBooking, id) {
+  const cabin = await fetchCabinDetails(newBooking.cabinId);
+  const numNights = subtractDates(newBooking.endDate, newBooking.startDate);
+  const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
+  const extrasPrice = newBooking.hasBreakfast
+    ? numNights * 15 * newBooking.numGuests
+    : 0;
+  const totalPrice = cabinPrice + extrasPrice;
+  let status;
+  if (
+    isPast(new Date(newBooking.endDate)) &&
+    !isToday(new Date(newBooking.endDate))
+  )
+    status = "checked-out";
+  if (
+    isFuture(new Date(newBooking.startDate)) ||
+    isToday(new Date(newBooking.startDate))
+  )
+    status = "unconfirmed";
+  if (
+    (isFuture(new Date(newBooking.endDate)) ||
+      isToday(new Date(newBooking.endDate))) &&
+    isPast(new Date(newBooking.startDate)) &&
+    !isToday(new Date(newBooking.startDate))
+  )
+    status = "checked-in";
+
+  newBooking = {
+    ...newBooking,
+    numNights,
+    cabinPrice,
+    extrasPrice,
+    totalPrice,
+    status,
+  };
+
   let query = supabase.from("bookings");
   if (!id) query = query.insert([{ ...newBooking }]);
   if (id) query = query.update({ ...newBooking }).eq("id", id);

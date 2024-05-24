@@ -28,13 +28,13 @@ const Guest = styled.div`
 `;
 
 function TodayItem({ activity }) {
-  const { id, status, guests, numNights } = activity;
+  const { id, status, fullName, numNights } = activity;
 
   return (
     <StyledTodayItem>
       {status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
       {status === "checked-in" && <Tag type="blue">Departing</Tag>}
-      <Guest>{guests.fullName}</Guest>
+      <Guest>{fullName}</Guest>
 
       <div>{numNights} nights</div>
 
