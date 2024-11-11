@@ -9,18 +9,10 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-
-// const TableRow = styled.div`
-//   display: grid;
-//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-//   column-gap: 2.4rem;
-//   align-items: center;
-//   padding: 1.4rem 2.4rem;
-
-//   &:not(:last-child) {
-//     border-bottom: 1px solid var(--color-grey-100);
-//   }
-// `;
+import { useState } from "react";
+import Cabin360View from "./Cabin360View";
+import { HiViewBoards } from "react-icons/hi";
+import { Md3dRotation } from "react-icons/md";
 
 const Img = styled.img`
   display: block;
@@ -58,7 +50,7 @@ function CabinRow({ cabin }) {
     image,
     description,
   } = cabin;
-
+  const [show360View, setShow360View] = useState(false);
   const { isDeleting, mutate: deleteCabin } = useDeleteCabin();
 
   const { mutate, isAdding } = useCreatecabin();
@@ -103,6 +95,12 @@ function CabinRow({ cabin }) {
                 <Modal.Open opens="delete">
                   <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
                 </Modal.Open>
+                <Menus.Button
+                  icon={<Md3dRotation />}
+                  onClick={() => setShow360View(!show360View)}
+                >
+                  View 360
+                </Menus.Button>
               </Menus.List>
 
               <Modal.Window name="edit">
@@ -120,6 +118,14 @@ function CabinRow({ cabin }) {
           </Modal>
         </div>
       </Table.Row>
+      {show360View && (
+        <Modal>
+          <Cabin360View
+            imageUrl={image}
+            onClose={() => setShow360View(false)}
+          />
+        </Modal>
+      )}
     </>
   );
 }
