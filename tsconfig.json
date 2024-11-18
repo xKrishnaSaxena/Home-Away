@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
     "target": "es5",
     "lib": ["dom", "esnext"],
     "jsx": "react-jsx", // or "react" if you're using React 17 or earlier

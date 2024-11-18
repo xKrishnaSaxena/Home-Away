@@ -62,9 +62,10 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 interface ModalProps {
   children: ReactNode;
+  onClose?:()=>void;
 }
 
-function Modal({ children }: ModalProps) {
+function Modal({ children ,onClose}: ModalProps) {
   const [openName, setOpenName] = useState<string>("");
 
   const close = () => setOpenName("");

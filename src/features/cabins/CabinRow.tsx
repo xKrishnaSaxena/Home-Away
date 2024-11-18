@@ -13,6 +13,7 @@ import { useState } from "react";
 import Cabin360View from "./Cabin360View";
 import { Md3DRotation } from "react-icons/md";
 import { Cabin } from "../../types";
+import Button from "../../ui/Button";
 
 const Img = styled.img`
   display: block;
@@ -41,9 +42,11 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 interface CabinRowProps{
-  cabin:Cabin
+  cabin:Cabin;
+  onToggleCompare:(cabin:Cabin)=>void;
+  isSelectedForCompare:boolean
 }
-function CabinRow({ cabin }:CabinRowProps) {
+function CabinRow({ cabin,onToggleCompare,isSelectedForCompare }:CabinRowProps) {
   const {
     id: cabinId,
     name,
@@ -85,6 +88,10 @@ function CabinRow({ cabin }:CabinRowProps) {
           <span>&mdash;</span>
         )}
         <div>
+        <div><Button onClick={()=>onToggleCompare(cabin)}>
+            {isSelectedForCompare?"Remove from Compare":"Compare"}
+          </Button></div>
+          <div>
           <Modal>{cabinId && <Menus.Menu>
               <Menus.Toggle id={cabinId.toString()} />
               <Menus.List id={cabinId.toString()}>
@@ -122,6 +129,7 @@ function CabinRow({ cabin }:CabinRowProps) {
             </Menus.Menu>}
             
           </Modal>
+        </div>
         </div>
       </Table.Row>
       {show360View && (
