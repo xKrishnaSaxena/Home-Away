@@ -14,10 +14,10 @@ Elevate your hotel's operations with Home Away, an innovative app built with Rea
 ## Technologies Used
 
 - **Supabase:** Backend as a service to handle database operations, authentication, and API routes.
-- **React.js:** Frontend library for building user interfaces.
+- **React:** Frontend library for building user interfaces.
 - **Styled Components:** CSS-in-JS library for styling the user interface.
 - **Recharts:** Library for building responsive charts and data visualizations.
-- **JavaScript (ES6+):** Programming language for both frontend and backend development.
+- **Typescript:** Programming language for both frontend and backend development.
 - **HTML/CSS:** Markup and styling for the user interface.
 
 ## Screenshots/Demo
